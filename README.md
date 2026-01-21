@@ -1,42 +1,47 @@
-StayManager-MVC: Room Rental Management System
-📌 Overview
-StayManager-MVC is a robust web application designed to streamline the administration of room rentals. Built on the ASP.NET Core MVC framework, the system automates the lifecycle of a reservation—from client data entry and automatic cost calculation based on room types to persistent storage and record management (CRUD).
+# StayManager-MVC: Room Rental Management System
 
-The project focuses on high data integrity, utilizing Entity Framework Core for ORM (Object-Relational Mapping) and a modular architecture that separates business logic, data models, and user views.
+[![Framework: .NET Core 8.0](https://img.shields.io/badge/Framework-.NET%20Core%208.0-blue.svg)](https://dotnet.microsoft.com/en-us/download)
+[![Architecture: MVC](https://img.shields.io/badge/Architecture-MVC-green.svg)](https://dotnet.microsoft.com/en-us/apps/aspnet/mvc)
+[![Database: SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red.svg)](https://www.microsoft.com/en-us/sql-server/)
+[![ORM: Entity Framework Core](https://img.shields.io/badge/ORM-EF%20Core-orange.svg)](https://learn.microsoft.com/en-us/ef/core/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🚀 Key Features
-Dynamic Cost Calculation: Automatically computes the total stay price based on room category (Standard, Suite, Deluxe) and duration.
+## 📌 Overview
+**StayManager-MVC** is a robust web application designed to streamline the administration of room rentals. Built on the **ASP.NET Core MVC** framework, the system automates the complete lifecycle of a reservation—from client data entry and automatic cost calculation based on room types to persistent storage and full record management (CRUD).
 
-Full CRUD Operations: Comprehensive interface to Create, Read, Update, and Delete rental records.
+The project emphasizes high data integrity and follows a modular architecture, ensuring a clean separation between business logic, data models, and user interfaces.
 
-Data Validation: Server-side and client-side validation for required fields, dates, and numeric inputs.
+---
 
-Responsive Dashboard: A clean, modern table-based view for monitoring all active and past rentals.
+## 🚀 Key Features
+* **Dynamic Cost Calculation:** Real-time computation of stay prices based on room category (Standard, Suite, Deluxe) and duration.
+* **Full CRUD Lifecycle:** Comprehensive interface to Create, Read, Update, and Delete rental records with ease.
+* **Smart Data Validation:** Multi-layer validation (Client & Server-side) for data types, required fields, and logical date ranges.
+* **Responsive Dashboard:** A modern, mobile-friendly table-based view for monitoring active and past rentals.
+* **Enterprise-Ready Persistence:** Full integration with **SQL Server** through **Entity Framework Core** for secure data management.
 
-Database Persistence: Full integration with SQL Server to ensure data persistence and security.
+---
 
-🛠️ Technical Stack
-Backend: C# with ASP.NET Core 8.0 (MVC Pattern).
+## 🛠️ Technical Stack
+* **Backend:** C# with ASP.NET Core 8.0 (MVC Architectural Pattern).
+* **ORM:** Entity Framework Core (Code First & DB First compatibility).
+* **Database:** Microsoft SQL Server.
+* **Frontend:** Razor Pages, HTML5, CSS3, and Bootstrap for responsive layouts.
 
-ORM: Entity Framework Core (Code First / DB First approach).
+---
 
-Database: Microsoft SQL Server.
+## 🧠 Database Schema & Logic
+The system is centered around the `RoomRental` entity, designed for optimal data normalization:
 
-Frontend: Razor Pages, HTML5, CSS3, and Bootstrap for responsive design.
+| Attribute | Data Type | Constraint |
+| :--- | :--- | :--- |
+| **Guest Name** | String | Required |
+| **Room Type** | String | Category Selection |
+| **Stay Duration** | Integer | Range (1-365) |
+| **Total Cost** | Decimal | Calculated Field |
 
-🧠 Database Schema & Logic
-The system is centered around a RoomRental entity. Key attributes include:
-
-Guest Name: String (Required).
-
-Room Type: Categorized selection (Standard: $X/day, Suite: $Y/day, etc.).
-
-Stay Duration: Integer (Days).
-
-Total Cost: Calculated field (Rate * Days).
-
-Data Model Snippet (C#)
-C#
+### Data Model Implementation
+```csharp
 public class RoomRental
 {
     [Key]
@@ -56,12 +61,12 @@ public class RoomRental
     [DataType(DataType.Currency)]
     public decimal TotalAmount { get; set; }
 }
-💻 Implementation Details
-Business Logic: Automatic Pricing
-The application implements a specialized logic within the Controller to handle pricing tiers. This ensures that the user only needs to input the room type and days, while the system handles the financial accuracy.
+💻 Implementation Highlights
+Business Logic: Automated Pricing Engine
+A centralized logic within the Controller manages pricing tiers, ensuring accuracy and reducing manual input errors.
 
 C#
-// Logic snippet inside the Controller
+// Business logic for cost calculation
 public decimal CalculateTotal(string type, int days)
 {
     decimal rate = type switch
@@ -73,53 +78,51 @@ public decimal CalculateTotal(string type, int days)
     };
     return rate * days;
 }
-View Components (Razor)
-The UI uses strongly-typed views to bind data models to HTML forms, ensuring that validation messages are displayed in real-time if a field is omitted.
+UX Design (Razor & Bootstrap)
+The UI utilizes strongly-typed views to bind models directly to the HTML, providing instant feedback via validation summaries and dynamic layouts.
 
 📂 Project Structure
 Plaintext
 StayManager-MVC/
 ├── Controllers/
-│   └── RentalController.cs    # Handles CRUD logic and pricing calculations
+│   └── RentalController.cs    # Orchestrates CRUD & Business Logic
 ├── Models/
-│   └── RoomRental.cs          # Data structure and validation rules
+│   └── RoomRental.cs          # Entity definitions & validation rules
 ├── Data/
-│   └── ApplicationDbContext.cs # Database context and EF configuration
+│   └── ApplicationDbContext.cs # EF Core Context & DB Configuration
 ├── Views/
 │   ├── Rental/
-│   │   ├── Index.cshtml       # Main records dashboard
-│   │   ├── Create.cshtml      # New registration form
-│   │   └── Edit.cshtml        # Record modification interface
-│   └── Shared/
-├── wwwroot/                   # Static files (CSS, JS, Images)
-└── Program.cs                 # Application startup and Dependency Injection
+│   │   ├── Index.cshtml       # Main Records Dashboard
+│   │   ├── Create.cshtml      # New Registration Interface
+│   │   └── Edit.cshtml        # Record Update Module
+│   └── Shared/                # Layouts & Partials
+├── wwwroot/                   # Static Assets (CSS, JS, Libs)
+└── Program.cs                 # App Startup & Dependency Injection
 🔧 Installation & Setup
 Clone the repository:
 
 Bash
-git clone https://github.com/your-username/staymanager-mvc.git
-Database Configuration: Update the ConnectionStrings in appsettings.json to point to your SQL Server instance.
+git clone [https://github.com/your-username/staymanager-mvc.git](https://github.com/your-username/staymanager-mvc.git)
+Database Configuration: Modify the ConnectionStrings in appsettings.json to match your local SQL Server instance.
 
-Apply Migrations:
+Apply Database Migrations:
 
 Bash
 dotnet ef database update
-Run the application:
+Launch Application:
 
 Bash
 dotnet run
 🎓 Learning Outcomes
-This project demonstrates proficiency in:
+This project serves as a showcase of proficiency in:
 
-MVC Pattern: Separation of concerns for scalable web development.
+Professional MVC Architecture: Scalable separation of concerns.
 
-Entity Framework Core: Managing relational data through C# objects.
+ORM Mastery: Managing relational data seamlessly with EF Core.
 
-Form Validation: Implementing robust error handling for user inputs.
+Backend Development: Implementing conditional logic and financial calculations.
 
-Backend Logic: Handling conditional calculations and data processing.
+Secure UI/UX: Designing forms with robust validation and error handling.
 
 📄 License
 This project is licensed under the MIT License.
-
-Note: This documentation was generated based on the technical implementation of the Room Rental Management project.
