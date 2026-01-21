@@ -1,42 +1,47 @@
-StayManager-MVC: Sistema de Gestión de Alquiler de Habitaciones
-📌 Descripción General
-StayManager-MVC es una aplicación web robusta diseñada para optimizar la administración de alquileres de habitaciones. Desarrollado bajo el framework ASP.NET Core MVC, el sistema automatiza el ciclo de vida de una reserva: desde el ingreso de datos del cliente y el cálculo automático de costos según el tipo de habitación, hasta el almacenamiento persistente y la gestión de registros (CRUD).
+# StayManager-MVC: Sistema de Gestión de Alquiler de Habitaciones
 
-El proyecto se centra en la integridad de los datos, utilizando Entity Framework Core como ORM (Object-Relational Mapping) y una arquitectura modular que separa claramente la lógica de negocio, los modelos de datos y las vistas de usuario.
+[![Framework: .NET Core 8.0](https://img.shields.io/badge/Framework-.NET%20Core%208.0-blue.svg)](https://dotnet.microsoft.com/es-es/download)
+[![Arquitectura: MVC](https://img.shields.io/badge/Arquitectura-MVC-green.svg)](https://dotnet.microsoft.com/es-es/apps/aspnet/mvc)
+[![Base de Datos: SQL Server](https://img.shields.io/badge/Base_de_Datos-SQL%20Server-red.svg)](https://www.microsoft.com/es-es/sql-server/)
+[![ORM: Entity Framework Core](https://img.shields.io/badge/ORM-EF%20Core-orange.svg)](https://learn.microsoft.com/es-es/ef/core/)
+[![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🚀 Características Clave
-Cálculo Dinámico de Costos: Computa automáticamente el precio total de la estancia basándose en la categoría de la habitación (Estándar, Suite, Deluxe) y la duración.
+## 📌 Descripción General
+**StayManager-MVC** es una aplicación web robusta diseñada para optimizar la administración de alquileres de habitaciones. Desarrollado bajo el framework **ASP.NET Core MVC**, el sistema automatiza el ciclo de vida completo de una reserva: desde el ingreso de datos del cliente y el cálculo automático de costos según el tipo de habitación, hasta el almacenamiento persistente y la gestión integral de registros (CRUD).
 
-Operaciones CRUD Completas: Interfaz integral para Crear, Leer, Actualizar y Eliminar registros de alquiler.
+El proyecto destaca por su alta integridad de datos y sigue una arquitectura modular, asegurando una separación clara entre la lógica de negocio, los modelos de datos y las interfaces de usuario.
 
-Validación de Datos: Validaciones tanto en el lado del servidor como del cliente para campos obligatorios, formatos de fecha y entradas numéricas.
+---
 
-Dashboard Responsivo: Vista basada en tablas modernas y limpias para el monitoreo de alquileres activos e históricos.
+## 🚀 Características Clave
+* **Cálculo Dinámico de Costos:** Computación en tiempo real de los precios de estancia basados en la categoría de habitación (Estándar, Suite, Deluxe) y la duración.
+* **Ciclo CRUD Completo:** Interfaz intuitiva para Crear, Leer, Actualizar y Eliminar registros de alquiler sin complicaciones.
+* **Validación Inteligente de Datos:** Validación multicapa (Lado Cliente y Servidor) para tipos de datos, campos obligatorios y rangos lógicos de fechas.
+* **Dashboard Responsivo:** Vista moderna basada en tablas, compatible con dispositivos móviles, para el monitoreo de alquileres actuales e históricos.
+* **Persistencia de Clase Empresarial:** Integración total con **SQL Server** a través de **Entity Framework Core** para una gestión segura de la información.
 
-Persistencia de Datos: Integración total con SQL Server para garantizar la seguridad y permanencia de la información.
+---
 
-🛠️ Stack Tecnológico
-Backend: C# con ASP.NET Core 8.0 (Patrón MVC).
+## 🛠️ Stack Tecnológico
+* **Backend:** C# con ASP.NET Core 8.0 (Patrón Arquitectónico MVC).
+* **ORM:** Entity Framework Core (Compatibilidad con Code First y DB First).
+* **Base de Datos:** Microsoft SQL Server.
+* **Frontend:** Razor Pages, HTML5, CSS3 y Bootstrap para diseños responsivos.
 
-ORM: Entity Framework Core (Enfoque Code First / DB First).
+---
 
-Base de Datos: Microsoft SQL Server.
+## 🧠 Esquema y Lógica de Base de Datos
+El sistema se centraliza en la entidad `RoomRental`, diseñada para una normalización de datos óptima:
 
-Frontend: Razor Pages, HTML5, CSS3 y Bootstrap para un diseño responsivo.
+| Atributo | Tipo de Dato | Restricción |
+| :--- | :--- | :--- |
+| **Nombre Huésped** | String | Requerido |
+| **Tipo Habitación** | String | Selección por Categoría |
+| **Duración** | Entero | Rango (1-365 días) |
+| **Costo Total** | Decimal | Campo Calculado |
 
-🧠 Lógica y Esquema de Base de Datos
-El sistema se centraliza en la entidad RoomRental (Alquiler de Habitación). Los atributos clave incluyen:
-
-Nombre del Huésped: String (Requerido).
-
-Tipo de Habitación: Selección categorizada (Estándar, Suite, Deluxe).
-
-Duración: Entero (Días).
-
-Costo Total: Campo calculado (Tarifa * Días).
-
-Fragmento del Modelo de Datos (C#)
-C#
+### Implementación del Modelo de Datos
+```csharp
 public class RoomRental
 {
     [Key]
@@ -56,68 +61,68 @@ public class RoomRental
     [DataType(DataType.Currency)]
     public decimal TotalAmount { get; set; }
 }
-💻 Detalles de Implementación
-Lógica de Negocio: Tarifas Automáticas
-La aplicación implementa una lógica especializada dentro del Controlador para gestionar los niveles de precios. Esto asegura que el usuario solo necesite ingresar el tipo de habitación y los días, mientras el sistema garantiza la precisión financiera.
+💻 Aspectos Destacados de Implementación
+Lógica de Negocio: Motor de Precios Automatizado
+Una lógica centralizada en el Controlador gestiona los niveles de precios, asegurando precisión y reduciendo errores de entrada manual.
 
 C#
-// Fragmento de lógica dentro del Controlador
-public decimal CalculateTotal(string type, int days)
+// Lógica de negocio para el cálculo de costos
+public decimal CalculateTotal(string tipo, int dias)
 {
-    decimal rate = type switch
+    decimal tarifa = tipo switch
     {
         "Standard" => 50.00m,
         "Suite" => 120.00m,
         "Deluxe" => 200.00m,
         _ => 0.00m
     };
-    return rate * days;
+    return tarifa * dias;
 }
-Componentes de Vista (Razor)
-La interfaz utiliza vistas fuertemente tipadas (strongly-typed views) para vincular los modelos de datos con los formularios HTML, asegurando que los mensajes de validación se muestren en tiempo real.
+Diseño de Experiencia de Usuario (Razor & Bootstrap)
+La interfaz utiliza vistas fuertemente tipadas para vincular los modelos directamente con el HTML, proporcionando retroalimentación instantánea mediante resúmenes de validación y diseños dinámicos.
 
 📂 Estructura del Proyecto
 Plaintext
 StayManager-MVC/
 ├── Controllers/
-│   └── RentalController.cs    # Maneja la lógica CRUD y cálculos de precios
+│   └── RentalController.cs    # Orquestador de CRUD y Lógica de Negocio
 ├── Models/
-│   └── RoomRental.cs          # Estructura de datos y reglas de validación
+│   └── RoomRental.cs          # Definiciones de entidad y reglas de validación
 ├── Data/
-│   └── ApplicationDbContext.cs # Contexto de BD y configuración de EF
+│   └── ApplicationDbContext.cs # Contexto de EF Core y configuración de BD
 ├── Views/
 │   ├── Rental/
-│   │   ├── Index.cshtml       # Panel principal de registros
-│   │   ├── Create.cshtml      # Formulario de nuevo registro
-│   │   └── Edit.cshtml        # Interfaz de modificación
-│   └── Shared/
-├── wwwroot/                   # Archivos estáticos (CSS, JS, Imágenes)
-└── Program.cs                 # Configuración de inicio e Inyección de Dependencias
+│   │   ├── Index.cshtml       # Panel de Control de Registros
+│   │   ├── Create.cshtml      # Interfaz de Nuevo Registro
+│   │   └── Edit.cshtml        # Módulo de Actualización de Datos
+│   └── Shared/                # Diseños Globales y Parciales
+├── wwwroot/                   # Recursos Estáticos (CSS, JS, Libs)
+└── Program.cs                 # Inicio de App e Inyección de Dependencias
 🔧 Instalación y Configuración
 Clonar el repositorio:
 
 Bash
-git clone https://github.com/tu-usuario/staymanager-mvc.git
-Configuración de la Base de Datos: Actualizar la cadena de conexión (ConnectionStrings) en el archivo appsettings.json con los datos de tu instancia de SQL Server.
+git clone [https://github.com/tu-usuario/staymanager-mvc.git](https://github.com/tu-usuario/staymanager-mvc.git)
+Configuración de Base de Datos: Modifica la cadena ConnectionStrings en appsettings.json para que coincida con tu instancia local de SQL Server.
 
-Aplicar Migraciones:
+Aplicar Migraciones de Base de Datos:
 
 Bash
 dotnet ef database update
-Ejecutar la aplicación:
+Iniciar Aplicación:
 
 Bash
 dotnet run
 🎓 Resultados del Aprendizaje
 Este proyecto demuestra competencia en:
 
-Patrón MVC: Separación de responsabilidades para un desarrollo web escalable.
+Arquitectura Profesional MVC: Separación de responsabilidades escalable.
 
-Entity Framework Core: Gestión de datos relacionales mediante objetos C#.
+Maestría en ORM: Gestión de datos relacionales sin interrupciones con EF Core.
 
-Validación de Formularios: Implementación de manejo de errores robusto para entradas de usuario.
+Desarrollo Backend: Implementación de lógica condicional y cálculos financieros.
 
-Lógica de Backend: Procesamiento de cálculos condicionales y flujos de datos.
+UI/UX Segura: Diseño de formularios con validación robusta y manejo de errores.
 
 📄 Licencia
 Este proyecto está bajo la Licencia MIT.
