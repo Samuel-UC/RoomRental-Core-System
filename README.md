@@ -121,3 +121,5 @@ Backend Logic: Handling conditional calculations and data processing.
 
 📄 License
 This project is licensed under the MIT License.
+
+Note: This documentation was generated based on the technical implementation of the Room Rental Management project.
